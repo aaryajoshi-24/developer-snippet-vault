@@ -1,12 +1,11 @@
-
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { generateSnippetMetadata } from "@/lib/gemini";
 
 export async function POST(request: Request) {
   try {
-    // Verify the signed-in user on the server.
     const supabase = await createClient();
+
     const {
       data: { user },
       error: authError,
@@ -59,8 +58,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(
       {
-        error:
-          "AI generation failed. Check your Gemini API configuration and try again.",
+        error: "AI metadata generation failed. Please try again.",
       },
       { status: 500 }
     );
