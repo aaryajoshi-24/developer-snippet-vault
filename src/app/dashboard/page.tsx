@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import DeleteSnippetButton from "@/components/DeleteSnippetButton";
 import CodePreview from "@/components/CodePreview";
 import MarkdownPreview from "@/components/MarkdownPreview";
+import ScanSnippetButton from "@/components/ScanSnippetButton";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -288,7 +289,10 @@ export default async function DashboardPage() {
                         code={snippet.content}
                         language={snippet.language}
                       />
-                    </div>
+
+                    
+                    <ScanSnippetButton code={snippet.content} />
+                      </div>
 
                     {snippet.tags && snippet.tags.length > 0 && (
                       <div className="mt-4 flex flex-wrap gap-2">

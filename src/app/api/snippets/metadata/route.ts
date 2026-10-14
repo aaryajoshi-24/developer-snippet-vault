@@ -1,3 +1,4 @@
+
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { generateSnippetMetadata } from "@/lib/gemini";
@@ -46,20 +47,34 @@ export async function POST(request: Request) {
       );
     }
 
-    const metadata = await generateSnippetMetadata(
-      title.trim(),
-      language.trim(),
-      content
-    );
+    try {
+      const metadata = await generateSnippetMetadata(
+        title.trim(),
+        language.trim(),
+        content
+      );
 
-    return NextResponse.json(metadata);
+      return NextResponse.json({
+        ...metadata,
+        aiGenerated: true,
+      });
+    } catch (error) {
+      console.error("Gemini metadata generation failed:", error);
+
+      return NextResponse.json(
+        {
+          error:
+            "AI metadata is temporarily unavailable. Please try again.",
+          code: "AI_METADATA_UNAVAILABLE",
+        },
+        { status: 503 }
+      );
+    }
   } catch (error) {
-    console.error("Snippet metadata generation failed:", error);
+    console.error("Metadata API request failed:", error);
 
     return NextResponse.json(
-      {
-        error: "AI metadata generation failed. Please try again.",
-      },
+      { error: "Unable to process the metadata request." },
       { status: 500 }
     );
   }
