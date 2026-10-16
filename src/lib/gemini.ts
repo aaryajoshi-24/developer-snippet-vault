@@ -1,15 +1,17 @@
 
 import { GoogleGenAI } from "@google/genai";
 
-const apiKey = process.env.GEMINI_API_KEY;
+function getAIClient(): GoogleGenAI {
+  const apiKey = process.env.GEMINI_API_KEY;
 
-if (!apiKey) {
-  throw new Error(
-    "GEMINI_API_KEY is missing from environment variables."
-  );
+  if (!apiKey) {
+    throw new Error(
+      "GEMINI_API_KEY is missing from environment variables."
+    );
+  }
+
+  return new GoogleGenAI({ apiKey });
 }
-
-const ai = new GoogleGenAI({ apiKey });
 
 const CANDIDATE_MODELS = [
   "gemini-3.8-flash",
@@ -25,6 +27,7 @@ type SnippetMetadata = {
 async function generateAIText(
   prompt: string
 ): Promise<string> {
+  const ai = getAIClient();
   let lastError: unknown;
 
   for (const model of CANDIDATE_MODELS) {
@@ -68,6 +71,7 @@ export async function generateSnippetMetadata(
   language: string,
   content: string
 ): Promise<SnippetMetadata> {
+  const ai = getAIClient();
   let response;
   let lastError: unknown;
 
