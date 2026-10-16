@@ -44,18 +44,28 @@ export default function DeleteSnippetButton({
   }
 
   return (
-    <div>
+    <div className="relative">
       <button
         type="button"
         onClick={handleDelete}
         disabled={loading}
-        className="rounded-lg border border-red-800 px-4 py-2 text-sm font-medium text-red-300 hover:bg-red-950 disabled:opacity-60"
+        className="inline-flex min-h-9 items-center justify-center gap-1.5 rounded-lg border border-red-200 bg-white px-3 py-2 text-xs font-semibold text-red-600 shadow-xs transition hover:border-red-300 hover:bg-red-50 hover:text-red-700 disabled:cursor-not-allowed disabled:opacity-50"
       >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          className="h-3.5 w-3.5"
+          aria-hidden="true"
+        >
+          <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+        </svg>
         {loading ? "Deleting..." : "Delete"}
       </button>
 
       {message && (
-        <p role="alert" className="mt-2 text-xs text-red-300">
+        <p role="alert" className="mt-1 text-xs text-red-600">
           {message}
         </p>
       )}
